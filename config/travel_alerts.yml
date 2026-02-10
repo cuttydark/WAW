@@ -1,0 +1,55 @@
+alerts:
+  threshold_percent: 6
+
+  flights:
+    - name: "SVQ → MIL"
+      origin: "SVQ"
+      destinations: ["MXP", "LIN", "BGY"]
+      date_start: "2026-02-07"
+      date_end: "2026-02-14"
+      scrape:
+        url_template: "https://www.google.com/travel/flights?hl=es&curr=EUR#flt={origin}.{destination}.{date_start}*{destination}.{origin}.{date_end};c:EUR;e:1"
+        wait_for: '[aria-label="Resultados de vuelos"]'
+        price_selector: '[data-test-id="arrival-price"]'
+        price_regex: '([0-9\.]+)'
+        fallback_price: 155
+        notes: "Revisa selector en runtime: Google cambia clases a menudo."
+    - name: "AGP → MIL"
+      origin: "AGP"
+      destinations: ["MXP", "LIN", "BGY"]
+      date_start: "2026-02-07"
+      date_end: "2026-02-14"
+      scrape:
+        url_template: "https://www.google.com/travel/flights?hl=es&curr=EUR#flt={origin}.{destination}.{date_start}*{destination}.{origin}.{date_end};c:EUR;e:1"
+        wait_for: '[aria-label="Resultados de vuelos"]'
+        price_selector: '[data-test-id="arrival-price"]'
+        price_regex: '([0-9\.]+)'
+        fallback_price: 150
+        notes: "Actualizar selector según estructura actual."
+
+  hotels:
+    - city: "Milan"
+      check_in: "2026-02-07"
+      check_out: "2026-02-14"
+      min_stars: 4
+      scrape:
+        url_template: "https://www.booking.com/searchresults.es.html?ss={city}&checkin={check_in}&checkout={check_out}&group_adults=2&nflt=class%3D{min_stars}"
+        wait_for: '[data-testid="property-card"]'
+        price_selector: '[data-testid="property-card"] [data-testid="price-and-discounted-price"]'
+        price_regex: '([0-9\.]+)'
+        fallback_price: 210
+        notes: "Booking suele mostrar precios con separadores de miles."
+
+  cars:
+    - location: "Milan"
+      pickup_date: "2026-02-07"
+      dropoff_date: "2026-02-14"
+      category: "economy"
+      pickup_location: "MXP"
+      scrape:
+        url_template: "https://www.rentalcars.com/SearchResults.do?dropCountry=Italy&dropCity={location}&dropDate={dropoff_date}&driversAge=35&locationName={pickup_location}&pickDate={pickup_date}&puSameAsDo=on&dropTime=1000&pickTime=1000&group={category}"
+        wait_for: '.carResultCard'
+        price_selector: '.carResultCard .price'
+        price_regex: '([0-9\.]+)'
+        fallback_price: 50
+        notes: "Verificar selectores tras primer scrape."

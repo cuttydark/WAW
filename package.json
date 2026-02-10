@@ -1,0 +1,19 @@
+{
+  "name": "clawd-prod",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "axios": "^1.13.5",
+    "better-sqlite3": "^12.6.2",
+    "dayjs": "^1.11.19",
+    "js-yaml": "^4.1.1",
+    "playwright": "^1.58.2"
+  }
+}
