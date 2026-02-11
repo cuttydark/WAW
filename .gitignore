@@ -5,3 +5,4 @@ playwright-report/
 logs/
 data/*.db-wal
 data/*.db-shm
+*.DS_Store

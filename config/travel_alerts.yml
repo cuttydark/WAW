@@ -1,129 +1,44 @@
 alerts:
   threshold_percent: 5
 
-  # Airport IDs for sky-scrapper RapidAPI (avoid lookup calls)
-  airport_ids:
-    SVQ: { skyId: "SVQ", entityId: "95565089" }
-    AGP: { skyId: "AGP", entityId: "95565095" }
-    MXP: { skyId: "MXP", entityId: "95565070" }
-    LIN: { skyId: "LIN", entityId: "95565067" }
-    BGY: { skyId: "BGY", entityId: "95565071" }
-    BIO: { skyId: "BIO", entityId: "95565082" }
-    DBV: { skyId: "DBV", entityId: "95565036" }
-    SPU: { skyId: "SPU", entityId: "95565037" }
+  origins: ["SVQ", "AGP"]
 
-  flights:
-    # Sevilla → Milán (3 aeropuertos)
-    - name: "SVQ → MIL"
-      origin: "SVQ"
-      destinations: ["MXP", "BGY"]
-      date_start: "2026-08-01"
-      date_end: "2026-08-31"
-      fallback_price: 150
+  # Semanas a comparar en agosto (ida → ida+7 días)
+  weeks:
+    - "2026-08-01"
+    - "2026-08-08"
+    - "2026-08-15"
+    - "2026-08-22"
 
-    # Sevilla → Bilbao
-    - name: "SVQ → BIO"
-      origin: "SVQ"
-      destinations: ["BIO"]
-      date_start: "2026-08-01"
-      date_end: "2026-08-31"
-      fallback_price: 80
+  destinations:
+    - name: "Milán"
+      airports: ["MXP", "BGY"]
+      city: "Milan"
+      booking_dest_id: "-121726"
+      fallback_flight: 150
+      fallback_hotel: 300
+      fallback_car: 80
 
-    # Sevilla → Croacia (Dubrovnik + Split)
-    - name: "SVQ → Croacia"
-      origin: "SVQ"
-      destinations: ["DBV", "SPU"]
-      date_start: "2026-08-01"
-      date_end: "2026-08-31"
-      fallback_price: 180
+    - name: "Bilbao"
+      airports: ["BIO"]
+      city: "Bilbao"
+      booking_dest_id: "-373608"
+      fallback_flight: 80
+      fallback_hotel: 250
+      fallback_car: 60
 
-    # Málaga → Milán
-    - name: "AGP → MIL"
-      origin: "AGP"
-      destinations: ["MXP", "BGY"]
-      date_start: "2026-08-01"
-      date_end: "2026-08-31"
-      fallback_price: 150
+    - name: "Dubrovnik"
+      airports: ["DBV"]
+      city: "Dubrovnik"
+      booking_dest_id: "-79996"
+      fallback_flight: 180
+      fallback_hotel: 350
+      fallback_car: 70
 
-    # Málaga → Bilbao
-    - name: "AGP → BIO"
-      origin: "AGP"
-      destinations: ["BIO"]
-      date_start: "2026-08-01"
-      date_end: "2026-08-31"
-      fallback_price: 80
-
-    # Málaga → Croacia
-    - name: "AGP → Croacia"
-      origin: "AGP"
-      destinations: ["DBV", "SPU"]
-      date_start: "2026-08-01"
-      date_end: "2026-08-31"
-      fallback_price: 180
-
-  hotels:
-    # Milán — más económico (sin filtro de estrellas)
-    - city: "Milan"
-      dest_id: "-121726"
-      search_type: "city"
-      check_in: "2026-08-01"
-      check_out: "2026-08-07"
-      min_stars: 0
-      fallback_price: 300
-
-    # Bilbao — más económico
-    - city: "Bilbao"
-      dest_id: "-373608"
-      search_type: "city"
-      check_in: "2026-08-01"
-      check_out: "2026-08-07"
-      min_stars: 0
-      fallback_price: 250
-
-    # Dubrovnik — más económico
-    - city: "Dubrovnik"
-      dest_id: "-79996"
-      search_type: "city"
-      check_in: "2026-08-01"
-      check_out: "2026-08-07"
-      min_stars: 0
-      fallback_price: 350
-
-    # Split — más económico
-    - city: "Split"
-      dest_id: "-96492"
-      search_type: "city"
-      check_in: "2026-08-01"
-      check_out: "2026-08-07"
-      min_stars: 0
-      fallback_price: 300
-
-  cars:
-    # Coche económico en cada aeropuerto destino
-    - location: "Milan"
-      pickup_date: "2026-08-01"
-      dropoff_date: "2026-08-07"
-      category: "economy"
-      pickup_location: "MXP"
-      fallback_price: 80
-
-    - location: "Bilbao"
-      pickup_date: "2026-08-01"
-      dropoff_date: "2026-08-07"
-      category: "economy"
-      pickup_location: "BIO"
-      fallback_price: 60
-
-    - location: "Dubrovnik"
-      pickup_date: "2026-08-01"
-      dropoff_date: "2026-08-07"
-      category: "economy"
-      pickup_location: "DBV"
-      fallback_price: 70
-
-    - location: "Split"
-      pickup_date: "2026-08-01"
-      dropoff_date: "2026-08-07"
-      category: "economy"
-      pickup_location: "SPU"
-      fallback_price: 65
+    - name: "Split"
+      airports: ["SPU"]
+      city: "Split"
+      booking_dest_id: "-96492"
+      fallback_flight: 180
+      fallback_hotel: 300
+      fallback_car: 65
