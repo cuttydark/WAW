@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
+require('dotenv').config();
+
 const { loadConfig } = require('../lib/config');
 const { ensureDb } = require('../lib/db');
 const { evaluatePrice } = require('../lib/alerts');
 const { fetchFlights } = require('../lib/fetchers/flights');
 const { fetchHotels } = require('../lib/fetchers/hotels');
 const { fetchCars } = require('../lib/fetchers/cars');
-const { shutdownBrowser } = require('../lib/scraper/browser');
+const telegram = require('../lib/notifiers/telegram');
 
 function summariseAlerts(alerts) {
   if (!alerts.length) return 'Sin alertas';
@@ -19,15 +21,11 @@ function summariseAlerts(alerts) {
 
   const items = [];
 
-  try {
-    const flights = await fetchFlights(config);
-    const hotels = await fetchHotels(config);
-    const cars = await fetchCars(config);
+  const flights = await fetchFlights(config);
+  const hotels = await fetchHotels(config);
+  const cars = await fetchCars(config);
 
-    items.push(...flights, ...hotels, ...cars);
-  } finally {
-    await shutdownBrowser();
-  }
+  items.push(...flights, ...hotels, ...cars);
 
   if (!items.length) {
     console.log('No se recibieron precios. Revisa los selectores/URLs del scrape.');
@@ -54,4 +52,6 @@ function summariseAlerts(alerts) {
       console.log(`${alert.item.item_type.toUpperCase()} ${alert.item.item_key}: ${alert.message}`);
     });
   }
+
+  await telegram.notifyAlerts(allAlerts, items);
 })();

@@ -1,4 +1,7 @@
 node_modules/
 .npm-cache/
-data/
 playwright-report/
+.env
+logs/
+data/*.db-wal
+data/*.db-shm
