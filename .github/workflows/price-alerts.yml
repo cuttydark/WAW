@@ -29,15 +29,17 @@ jobs:
       - name: Run price pipeline
         env:
           RAPIDAPI_KEY: ${{ secrets.RAPIDAPI_KEY }}
-          KIWI_API_KEY: ${{ secrets.KIWI_API_KEY }}
           TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
           TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
         run: node scripts/run_pipeline.js
 
       - name: Persist price database
+        if: always()
+        continue-on-error: true
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git pull --rebase origin main || true
           git add -f data/travel_alerts.db
           git diff --cached --quiet || git commit -m "chore: update price database [skip ci]"
-          git push
+          git push || echo "Push failed, DB not persisted this run"
