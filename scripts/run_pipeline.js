@@ -11,7 +11,7 @@ const booking = require('../lib/providers/booking_rapidapi');
 const priceline = require('../lib/providers/priceline_rapidapi');
 const telegram = require('../lib/notifiers/telegram');
 
-const DELAY_MS = 2000;
+const DELAY_MS = 3000;
 function sleep(ms) { return new Promise((r) => setTimeout(r, ms)); }
 
 async function findCheapestWeek(origin, airport, weeks) {
@@ -82,11 +82,14 @@ async function searchCar(airport, pickupDate, dropoffDate) {
       }
 
       if (!bestFlight) {
+        const fbStart = weeks[0];
+        const fbEnd = dayjs(fbStart).add(7, 'day').format('YYYY-MM-DD');
         console.log(`  ${origin}→${dest.name}: sin vuelos, usando fallback`);
         packages.push({
-          origin, dest: dest.name,
-          flight: { price: dest.fallback_flight, provider: 'fallback', dates: `${weeks[0]} → +7d` },
-          hotel: { price: dest.fallback_hotel, provider: 'fallback' },
+          origin, dest: dest.name, airport: dest.airports[0],
+          dates: `${fbStart} → ${fbEnd}`,
+          flight: { price: dest.fallback_flight, provider: 'fallback' },
+          hotel: { price: dest.fallback_hotel, provider: 'fallback', currency: 'EUR' },
           car: { price: dest.fallback_car, currency: 'USD', provider: 'fallback' }
         });
 
